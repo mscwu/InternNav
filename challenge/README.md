@@ -47,9 +47,11 @@ $ xhost +local:root # Allow the container to access the display
 $ cd PATH/TO/INTERNNAV/
 
 $ docker run --name internnav -it --rm --gpus all --network host \
+  --shm-size=20g \
   -e "ACCEPT_EULA=Y" \
   -e "PRIVACY_CONSENT=Y" \
   -e "DISPLAY=${DISPLAY}" \
+  -e "HF_ENDPOINT=https://hf-mirror.com" \
   --entrypoint /bin/bash \
   -w /root/InternNav \
   -v /tmp/.X11-unix/:/tmp/.X11-unix \
@@ -62,7 +64,9 @@ $ docker run --name internnav -it --rm --gpus all --network host \
   -v ${HOME}/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
   -v ${HOME}/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
   -v ${HOME}/docker/isaac-sim/documents:/root/Documents:rw \
-  crpi-mdum1jboc8276vb5.cn-beijing.personal.cr.aliyuncs.com/iros-challenge/internnav:v1.0
+  -v ${PWD}/data/scene_data/mp3d_pe:/isaac-sim/Matterport3D/data/v1/scans:ro \
+  crpi-mdum1jboc8276vb5.cn-beijing.personal.cr.aliyuncs.com/iros-challenge/internnav:v1.0 \
+  -c "echo 'export HF_ENDPOINT=https://hf-mirror.com' >> ~/.bashrc && /bin/bash"
 ```
 
 ### Download the starter dataset (val_seen + val_unseen splits)
