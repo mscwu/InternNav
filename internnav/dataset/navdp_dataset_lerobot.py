@@ -407,15 +407,16 @@ class NavDP_Base_Datset(Dataset):
 def navdp_collate_fn(batch):
     
     collated = {
-        "batch_pg": torch.stack([item[0] for item in batch]),
-        "batch_ig": torch.stack([item[1] for item in batch]),
-        "batch_tg": torch.stack([item[2] for item in batch]),
-        "batch_rgb": torch.stack([item[3] for item in batch]),
-        "batch_depth": torch.stack([item[4] for item in batch]),
-        "batch_labels": torch.stack([item[5] for item in batch]),
-        "batch_augments": torch.stack([item[6] for item in batch]),
-        "batch_label_critic": torch.stack([item[7] for item in batch]),
-        "batch_augment_critic": torch.stack([item[8] for item in batch]),
+        "batch_pg": torch.stack([torch.tensor(item[0], dtype=torch.float32) for item in batch]),
+        "batch_ig": torch.stack([torch.tensor(item[1], dtype=torch.float32) for item in batch]),
+        "batch_tg": torch.stack([torch.tensor(item[2], dtype=torch.float32) for item in batch]),
+        "batch_rgb": torch.stack([torch.tensor(item[3], dtype=torch.float32) for item in batch]),
+        "batch_depth": torch.stack([torch.tensor(item[4], dtype=torch.float32) for item in batch]),
+        "batch_labels": torch.stack([torch.tensor(item[5], dtype=torch.float32) for item in batch]),
+        "batch_augments": torch.stack([torch.tensor(item[6], dtype=torch.float32) for item in batch]),
+        "batch_label_critic": torch.stack([torch.tensor(item[7], dtype=torch.float32) for item in batch]),
+        "batch_augment_critic": torch.stack([torch.tensor(item[8], dtype=torch.float32) for item in batch]),
+        "batch_pixel_flag": torch.stack([torch.tensor(item[9], dtype=torch.float32) for item in batch]),
     }
     return collated
 
